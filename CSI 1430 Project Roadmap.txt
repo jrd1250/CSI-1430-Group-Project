@@ -1,0 +1,35 @@
+Map: Town (stretch goal: multiple screens)
+Pokemon: Procedural
+		Head - 3
+		Body - 3
+		Arms - 3
+		Legs - 3
+		Type - 4 (Fire, Water, Earth, Air)
+
+
+Mechanics:
+		-Movement
+		-Keyboard input (esc: pause; WASD/Arrow keys: movement
+		-Battle (hp, defense, 3 attacks, STRETCH GOAL: EXP, level)
+		-Random Encounters
+		-Capture (when enemy is defeated, 20% chance to capture)
+		-Pokemon limit (3-5)
+		-Menu (start menu, pause menu)
+		-Sound (menu music, game music, battle music)
+		
+
+Files:
+	CODE:
+
+	pokemon class (head, body, arms, legs, type, preName, postName)
+	
+	STORAGE:
+
+	config.dat (if options included)
+	pokemon.dat (to store captured pokemon)
+
+	ASSETS:
+
+	menu_music.wav
+	game_music.wav
+	battle_music.wav

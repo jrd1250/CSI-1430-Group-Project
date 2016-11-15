@@ -21,7 +21,10 @@ Mechanics:
 Files:
 	CODE:
 
-	pokemon class (head, body, arms, legs, type, preName, postName)
+	game manager (track random encounters, movement, current map, state (menu/game/battle))
+	?Player class (pokemon<>, ?sprite, ?location, ?configFileName)
+	battle function Battle(Pokemon player, Pokemon enemy);
+	pokemon class (head, body, arms, legs, type, preName, postName, hp, defense, attacks [EXP, level])
 	
 	STORAGE:
 

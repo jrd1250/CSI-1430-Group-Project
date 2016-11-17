@@ -30,6 +30,9 @@ Files:
 
 	config.dat (if options included)
 	pokemon.dat (to store captured pokemon)
+	pokedex.dat
+		for each pokemon:
+			poke<index>.pkn (<index> will be replaced with the index of the pokemon whose data is stored)
 
 	ASSETS:
 

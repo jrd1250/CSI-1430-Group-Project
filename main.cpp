@@ -16,7 +16,7 @@ using namespace std;
 int main(int argc, char ** argv)
 {
 
-    SDL_Plotter g(1000,1000);
+    SDL_Plotter g(480,640);
     int x,y, xd, yd;
     int R,G,B;
 

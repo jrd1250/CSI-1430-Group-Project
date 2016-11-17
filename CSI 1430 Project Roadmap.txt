@@ -39,3 +39,13 @@ Files:
 	menu_music.wav
 	game_music.wav
 	battle_music.wav
+	
+Menu Notes:
+	- Resume Game
+	- Your Stats
+	- Active Pokemon
+	- Team
+	- Search Pokedex
+	- Options
+	- Save and Quit
+	- Quit without Saving

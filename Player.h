@@ -15,6 +15,7 @@ class Player
 private:
   int numPokemon,
       battlesWon,
+      playerNum,
       currMap;
   string name;
 //  Pokemon team<>;
@@ -23,7 +24,8 @@ private:
 public:
   // CONSTRUCTORS
   Player();
-  Player(int pokeNum, int victory, string name, Pokemon active);
+  Player(int pokeNum, int victory, int n, int m,
+         string name, Pokemon active);
 
   // SET & GET
   void setNumPokemon(int);

@@ -12,17 +12,19 @@ Player::Player()
   numPokemon = 0;
   battleWon = 0;
   currMap = -1;
-  name = "PokeMan";
-  //Pokemon team placeholder for team<> in Pokemon class
+  name = "DudeGuy";
+  activePokemon = Pokemon();
 }
 
-Player::Player(int pokeNum, int victory, string name, Pokemon active)
+Player::Player(int pokeNum, int victory, int n, int m,
+         string name, Pokemon active)
 {
   numPokemon = pokeNum;
   battleWon = victory;
-  currMap = -1;
+  playerNum = n;
+  currMap = m;
   name = name;
-  //Placeholder for Pokemon active vector
+  activePokemon = active;
 }
 
 void Player::setNumPokemon(int n)
@@ -55,23 +57,25 @@ string Player::getName()
   return name;
 }
 
-/*void Player::setActivePokemon(Pokemon::Pokemon n)
+void Player::setActivePokemon(Pokemon n)
 {
-  placeholder for vector team<> active pokemon
+  activePokemon = n;
 }
-*/
+
 Pokemon Player::getActivePokemon()
 {
   return activePokemon;
 }
-/*
-void Player::Save(ofstream& out)
+
+void Player::Save(std::ofstream& out)
+{
+  out << "Save File for player" << playerNum << std::endl
+      << numPokemon << ' ' << battlesWon << ' ' << playerNum << ' ' << currMap
+      << ' ' << name << ' ';
+}
+
+void Player::Load(std::ifstream& in)
 {
 
 }
 
-void Player::Load(ifstream& in)
-{
-
-}
-*/

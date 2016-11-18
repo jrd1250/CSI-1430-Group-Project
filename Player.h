@@ -17,13 +17,13 @@ private:
       battlesWon,
       currMap;
   string name;
-  Pokemon team<>,
-          activePokemon;
+//  Pokemon team<>;
+  Pokemon activePokemon;
 
 public:
   // CONSTRUCTORS
   Player();
-  Player(int pokeNum, int victory, string name, Pokemon active)
+  Player(int pokeNum, int victory, string name, Pokemon active);
 
   // SET & GET
   void setNumPokemon(int);

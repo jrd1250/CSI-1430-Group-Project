@@ -9,6 +9,9 @@ using namespace std;
 
 // Default constructor
 Pokemon::Pokemon()
+{
+    index = -1;
+}
 
 // Constructor that receives index of Pokemon, with all attributes that come
 // with that particular Pokemon, like hp, defense, type, and name

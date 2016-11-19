@@ -56,5 +56,22 @@ void Start()
 
 void Move()
 {
+  in.open("player1.dat");
+    in.ignore(500, '\n');
+    in.ignore(500, '\n');
 
+    for(int n = 0; n < PLAYER_HEIGHT; n++)
+    {
+      for(int m = 0; m < PLAYER_WIDTH; m++)
+      {
+        in >> R >> G >> B;
+        if(R == 255 && G == 255 && B == 255)
+        {}
+        else
+        {
+          g.plotPixel(x + m, y + n, R, G, B);
+        }
+      }
+    }
+    in.close();
 }

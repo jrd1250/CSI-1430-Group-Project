@@ -325,6 +325,20 @@ void Battle(Pokemon& active, Pokemon& enemy, SDL_Plotter& g,
   }
 }
 
+//save function
+std::string Save(std::string fileName, std::ofstream& out, int& battlesWon,
+                 int& xCoord, int& yCoord, std::vector<Pokemon>& pokeTeam)
+{
+  out.open(fileName.c_str());
+  out << "This is the save file\n\n" << battlesWon << "\n" << xCoord;
+  out << "\n" << yCoord << "\n";
+
+  for(int i = 0; i < int(pokeTeam.size()); i++)
+  {
+    out << pokeTeam[i].getIndex() << " ";
+  }
+}
+
 void Load(std::ifstream& in, std::string fileName, SDL_Plotter& g,
           int victories, std::vector<Pokemon>& pokeTeam, int& x, int& y,
           std::string heads[], std::string bodies[], std::string arms[],

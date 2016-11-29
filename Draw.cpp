@@ -15,9 +15,7 @@ void Draw(int x, int y, SDL_Plotter& g, std::ifstream& in,
 
     in.open(toDraw.c_str());
 
-    if(!in.is_open())
-    {}
-    else
+    if(in.is_open())
     {
       in >> row >> col;
 
@@ -108,9 +106,7 @@ void modDraw(int x, int y, SDL_Plotter& g, std::ifstream& in,
     }
 
     in.open(toDraw.c_str());
-    if(!in.is_open())
-    {}
-    else
+    if(in.is_open())
     {
       in >> row >> col;
 

@@ -5,7 +5,6 @@ Title: Implementation file for game functions library
 
 #include "Plotter.h"
 #include "Pokemon.h"
-#include "Player.h"
 #include "Game.h"
 #include <iostream>
 #include <stdlib.h>
@@ -57,8 +56,7 @@ Pokemon GenFromID(int index, std::string heads[], std::string bodies[],
                 std::string legs[], std::string types[], std::string prefix[],
                 std::string name1[], std::string name2[], std::string name3[],
                 std::string name4[], int headDefenseMods[], int bodyHPMods[],
-                int armDamageMods[], int legDamageMods[], int headNum,
-                int bodyNum, int armNum, int legNum, int typeNum)
+                int armDamageMods[], int legDamageMods[])
 {
   Pokemon genPokemon;
   int headIndex, bodyIndex, armIndex, legIndex, typeIndex;
@@ -78,11 +76,6 @@ Pokemon GenFromID(int index, std::string heads[], std::string bodies[],
 
   srand(time(NULL));
 
-  headIndex = rand() % headNum;
-  bodyIndex = rand() % bodyNum;
-  armIndex = rand() % armNum;
-  legIndex = rand() % legNum;
-  typeIndex = rand() % typeNum;
   tempHP = 30 + bodyHPMods[bodyIndex];
   tempDamage = 8 + armDamageMods[armIndex] + legDamageMods[legIndex];
   tempRange = 3;
@@ -164,13 +157,22 @@ Player Start(SDL_Plotter& g, std::ifstream& in,
 }
 */
 void Battle(Pokemon& active, Pokemon& enemy, SDL_Plotter& g,
-            std::ifstream& in, std::ostream& out, int playerX, int playerY)
+            std::ifstream& in, std::ostream& out, int playerX, int playerY,
+            int& victories, std::vector<Pokemon>& pokeTeam, const int MAX)
 {
   bool playerTurn = true;
   int option = 1;
+  int catchPoke;
   int enemyChoice;
   int cursorX = 248, cursorY = 492;
   char hitKey;
+
+  out << "Your Stats:\n\n" << "Name: " << active.getName()
+                 << std::endl << "HP: " << active.getHP() << std::endl
+                 << "Damage: " << active.getDamage() << std::endl
+                 << "Range: " << active.getDamageRange() << std::endl
+                 << "Defense: " << active.getDefense() << std::endl
+                 << "ID: " << active.getIndex() << std::endl << std::endl;
 
   srand(time(NULL));
 
@@ -262,21 +264,111 @@ void Battle(Pokemon& active, Pokemon& enemy, SDL_Plotter& g,
   }
   if(active.getHP() <= 0)
   {
-    out << "You died!\n";
-    Draw(0, 0, g, in, "gameOver.dat", false);
-    while(!g.kbhit())
+    out << active.getName() << " has been killed!\n";
+
+    pokeTeam.erase(pokeTeam.begin());
+
+    if(pokeTeam.empty())
     {
-      g.update();
+      out << "You died!\n";
+      Draw(0, 0, g, in, "gameOver.dat", false);
+      while(!g.kbhit())
+      {
+        g.update();
+      }
+      g.setQuit(true);
     }
-    g.setQuit(true);
+    else
+    {
+      active = pokeTeam[0];
+      out << "Your Stats:\n\n" << "Name: " << active.getName()
+                 << std::endl << "HP: " << active.getHP() << std::endl
+                 << "Damage: " << active.getDamage() << std::endl
+                 << "Range: " << active.getDamageRange() << std::endl
+                 << "Defense: " << active.getDefense() << std::endl
+                 << "ID: " << active.getIndex() << std::endl << std::endl;
+      Draw(0, 0, g, in, "map1.dat", false);
+      Draw(playerX, playerY, g, in, "player1.dat", false);
+    }
   }
   else
   {
+    srand(time(NULL));
+
+    catchPoke = rand() % 100 + 1;
     out << "You defeated the " << enemy.getName() << "!\n";
     Draw(0, 0, g, in, "map1.dat", false);
     Draw(playerX, playerY, g, in, "player1.dat", false);
     active.setHP(active.getMaxHP());
     active.setDefense(active.getMaxDefense() / 2);
+    victories++;
+    out << "You have won " << victories << " battles!\n";
+
+    if(int(catchPoke) > 70)
+    {
+      enemy.setHP(enemy.getMaxHP());
+      enemy.setDefense(enemy.getMaxDefense() / 2);
+      out << "You caught " << enemy.getName() << "!\n";
+      if(pokeTeam.size() >= MAX)
+      {
+        out << enemy.getName() << " replaced " << pokeTeam[MAX - 1].getName() << "!\n";
+        pokeTeam.pop_back();
+        pokeTeam.push_back(enemy);
+      }
+      else
+      {
+        pokeTeam.push_back(enemy);
+      }
+
+    }
+
   }
 }
 
+void Load(std::ifstream& in, std::string fileName, SDL_Plotter& g,
+          int victories, std::vector<Pokemon>& pokeTeam, int& x, int& y,
+          std::string heads[], std::string bodies[], std::string arms[],
+          std::string legs[], std::string types[], std::string prefix[],
+          std::string name1[], std::string name2[], std::string name3[],
+          std::string name4[], int headDefenseMods[], int bodyHPMods[],
+          int armDamageMods[], int legDamageMods[], std::ostream& out)
+{
+  int pokemonRead = 0,
+      id;
+
+  Pokemon poke;
+
+  pokeTeam.clear();
+
+  in.open(fileName.c_str());
+
+  if(in.is_open())
+  {
+    out << "Reading from save file...\n\n";
+    in.ignore(500, '\n');
+
+    in >> victories >> x >> y;
+
+    out << "battlesWon set to " << victories << ".\n";
+
+    while((in >> id) && pokemonRead < 4)
+    {
+      poke = GenFromID(id, heads, bodies, arms, legs, types, prefix, name1,
+                       name2, name3, name4, headDefenseMods, bodyHPMods,
+                       armDamageMods, legDamageMods);
+
+      pokeTeam.push_back(poke);
+
+      pokemonRead++;
+
+      out << "ID for Pokemon #" << pokemonRead << ": " << id << "\n";
+    }
+
+    in.close();
+
+    Draw(0, 0, g, in, "map1.dat", false);
+    Draw(x, y, g, in, "player1.dat", false);
+    out << "Screen Loaded.\n\n";
+  }
+
+}

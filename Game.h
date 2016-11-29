@@ -1,14 +1,17 @@
 /*
 Author: J.R.Diehl
 Title: Header file for game functions library
+Due Date: 12/1/16
+Date Created: 11/17/16
+Date Last Modified: 11/29/16
 */
 
 #include "Pokemon.h"
 #include "Plotter.h"
 #include "Draw.h"
-#include "Player.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #ifndef GAME_H
 #define GAME_H
@@ -39,5 +42,9 @@ Player Start(SDL_Plotter& g, std::ifstream& in,
 */
 void Battle(Pokemon& active, Pokemon& enemy, SDL_Plotter& g,
             std::ifstream& in, std::ostream& out, int playerX, int playerY);
+//save function
+std::string Save(std::string fileName, std::ofstream&, int& battlesWon,
+                 int& xCoord, int& yCoord, std::vector<Pokemon>& pokeTeam);
 
 #endif // GAME_H
+

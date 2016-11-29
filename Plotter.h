@@ -5,6 +5,10 @@
  *      Author: booth
  */
 
+/*
+NOTE: Modified by J.R. Diehl on 11/28/2016 to add font functionality
+*/
+
 #ifndef SDL_PLOTTER_H_
 #define SDL_PLOTTER_H_
 
@@ -17,7 +21,9 @@
 //#include "SDL2\SDL.h"
 //#include "SDL2\SDL_mixer.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
+//#include <SDL_mixer.h>
+//#include <SDL_ttf.h>
+
 
 #include <string.h>
 #include <iostream>
@@ -40,7 +46,7 @@ const int MAX_THREAD = 100;
 #define MUS_PATH "scratch.wav"
 
 //sample threaded sound function
-static int Sound(void *data);
+//static int Sound(void *data);
 
 struct param{
 	bool play;
@@ -62,19 +68,26 @@ private:
 	SDL_Renderer * renderer;
 	SDL_Window * window;
 
-	bool leftMouseButtonDown;
-    Uint32 * pixels;
-    const Uint8* currentKeyStates;
+  bool leftMouseButtonDown;
+  Uint32 * pixels;
+  const Uint8* currentKeyStates;
 
-    int row, col;
-    bool quit;
-    SDL_Event event;
+  int row, col;
+  bool quit;
+  SDL_Event event;
 
-    //Sound Stuff
-    bool SOUND;
-    int soundCount;
-    map<string, param> soundMap;
-
+  //Sound Stuff
+  bool SOUND;
+  int soundCount;
+  map<string, param> soundMap;
+/*
+  // Text stuff
+  TTF_Font *font;
+  SDL_Surface *message;
+  SDL_Texture *text;
+  SDL_Rect textRect;
+  SDL_Color textColor;
+*/
 public:
 
 
@@ -88,7 +101,7 @@ public:
 
     	SDL_Init(SDL_INIT_AUDIO);
 
-        window   = SDL_CreateWindow("Pokemon Negative One",
+        window   = SDL_CreateWindow("Pokemon Infinite",
         		                     SDL_WINDOWPOS_UNDEFINED,
         		                     SDL_WINDOWPOS_UNDEFINED, col, row, 0);
 
@@ -101,7 +114,16 @@ public:
         pixels   = new Uint32[col * row];
 
         memset(pixels, WHITE, col * row * sizeof(Uint32));
+/*
+        // Text stuff initialized to defaults
 
+        message = NULL;
+        font = NULL;
+        text = NULL;
+        textColor.r = 255;
+        textColor.g = 255;
+        textColor.b = 255;
+*/
         //SOUND Thread Pool
         soundCount = 0;
 
@@ -122,6 +144,12 @@ public:
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, NULL);
         SDL_RenderPresent(renderer);
+    }
+
+    // Added by J.R. Diehl
+    void setQuit(bool q)
+    {
+      quit = q;
     }
 
     bool getQuit(){
@@ -199,7 +227,7 @@ public:
     int getCol(){
     	return col;
     }
-
+/*
     void initSound(string sound){
 
 		if(!soundMap[sound].running){
@@ -222,6 +250,7 @@ public:
     void quitSound(string sound){
     	soundMap[sound].running = false;
     }
+*/
 
     void Sleep(int ms){
     	cout << "Sleep  ";
@@ -231,9 +260,8 @@ public:
 };
 
 
-
 //Threaded Function
-
+/*
 static int Sound(void *data){
 	param *p = (param*)data;
 	p->running = true;
@@ -254,7 +282,7 @@ static int Sound(void *data){
 	p->running = false;
 	return 0;
 }
-
+*/
 
 
 #endif /* SDL_PLOTTER_H_ */

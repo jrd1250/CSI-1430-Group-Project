@@ -6,9 +6,9 @@ Title: Header file for player class
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <vector>
 #include <fstream>
 #include "Pokemon.h"
+#include "Draw.h"
 
 class Player
 {
@@ -17,29 +17,30 @@ private:
       battlesWon,
       playerNum,
       currMap;
-  string name;
-//  Pokemon team<>;
+  std::string name;
   Pokemon activePokemon;
 
 public:
   // CONSTRUCTORS
   Player();
-  Player(int pokeNum, int victory, int n, int m,
-         string name, Pokemon active);
+  Player(Pokemon active);
+  Player(int pokeNum, int victory, int m,
+         std::string name, Pokemon active);
 
   // SET & GET
   void setNumPokemon(int);
   int getNumPokemon();
   void setBattlesWon(int);
   int getBattlesWon();
-  void setName(string);
-  string getName();
+  void setName(std::string);
+  std::string getName();
   void setActivePokemon(Pokemon);
   Pokemon getActivePokemon();
 
+
   // SAVE & LOAD
-  void Save(ofstream& out);
-  void Load(ifstream& in);
+  void Save(std::ofstream& out);
+  void Load(std::ifstream& in);
 };
 
 #endif // PLAYER_H

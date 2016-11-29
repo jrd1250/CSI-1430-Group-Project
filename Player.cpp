@@ -4,27 +4,42 @@ Title:  Player.cpp file
 */
 
 #include <string>
+#include <stdlib.h>
+#include <time.h>
 #include "Player.h"
 #include "Pokemon.h"
 
 Player::Player()
 {
+  srand(time(NULL));
+
   numPokemon = 0;
-  battleWon = 0;
+  battlesWon = 0;
   currMap = -1;
   name = "DudeGuy";
   activePokemon = Pokemon();
+  team.push_back(activePokemon);
 }
 
-Player::Player(int pokeNum, int victory, int n, int m,
-         string name, Pokemon active)
+Player::Player(Pokemon active)
+{
+  numPokemon = 0;
+  battlesWon = 0;
+  currMap = -1;
+  name = "DudeGuy";
+  activePokemon = active;
+  team.push_back(active);
+}
+
+Player::Player(int pokeNum, int victory, int m,
+         std::string name, Pokemon active)
 {
   numPokemon = pokeNum;
-  battleWon = victory;
-  playerNum = n;
+  battlesWon = victory;
   currMap = m;
   name = name;
   activePokemon = active;
+  team.push_back(active);
 }
 
 void Player::setNumPokemon(int n)
@@ -39,20 +54,20 @@ int Player::getNumPokemon()
 
 void Player::setBattlesWon(int n)
 {
-  battleWon = n;
+  battlesWon = n;
 }
 
 int Player::getBattlesWon()
 {
-  return battleWon;
+  return battlesWon;
 }
 
-void Player::setName(string n)
+void Player::setName(std::string n)
 {
   name = n;
 }
 
-string Player::getName()
+std::string Player::getName()
 {
   return name;
 }
@@ -67,10 +82,15 @@ Pokemon Player::getActivePokemon()
   return activePokemon;
 }
 
+void Player::addToTeam(Pokemon p)
+{
+  team.push_back(p);
+}
+
 void Player::Save(std::ofstream& out)
 {
-  out << "Save File for player" << playerNum << std::endl
-      << numPokemon << ' ' << battlesWon << ' ' << playerNum << ' ' << currMap
+  out << "Save File for " << std::endl << name << std::endl << std::endl
+      << numPokemon << ' ' << battlesWon << ' ' << currMap
       << ' ' << name << ' ';
 }
 

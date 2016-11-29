@@ -1,18 +1,22 @@
+
 /*
 Author: J.R. Diehl
 Title: Implementation file for game functions library
+Due Date: 12/1/16
+Date Created: 11/17/16
+Date Last Modified: 11/29/16
 */
 
 #include "Plotter.h"
 #include "Pokemon.h"
-#include "Player.h"
 #include "Game.h"
 #include <iostream>
+#include <string>
 #include <stdlib.h>
 #include <fstream>
 #include <time.h>
 
-
+//generating Pokemon function
 Pokemon GenPoke(std::string heads[], std::string bodies[], std::string arms[],
                 std::string legs[], std::string types[], std::string prefix[],
                 std::string name1[], std::string name2[], std::string name3[],
@@ -52,6 +56,7 @@ Pokemon GenPoke(std::string heads[], std::string bodies[], std::string arms[],
   return genPokemon;
 }
 
+//generating Pokemon function with ID
 Pokemon GenFromID(int index, std::string heads[], std::string bodies[],
                 std::string arms[],
                 std::string legs[], std::string types[], std::string prefix[],
@@ -115,13 +120,10 @@ Player Start(SDL_Plotter& g, std::ifstream& in,
   int cursorX = 196, cursorY = 297;
   Draw(0, 0, g, in, "startMenu.dat", false);
   Draw(cursorX, cursorY, g, in, "cursor.dat", false);
-
   Player gamePlayer;
-
   while(!selection)
   {
     g.update();
-
     if(g.kbhit()){
       hitKey = g.getKey();
       switch(hitKey)
@@ -163,6 +165,7 @@ Player Start(SDL_Plotter& g, std::ifstream& in,
   }
 }
 */
+//battle function
 void Battle(Pokemon& active, Pokemon& enemy, SDL_Plotter& g,
             std::ifstream& in, std::ostream& out, int playerX, int playerY)
 {
@@ -280,3 +283,16 @@ void Battle(Pokemon& active, Pokemon& enemy, SDL_Plotter& g,
   }
 }
 
+//save function
+std::string Save(std::string fileName, std::ofstream& out, int& battlesWon,
+                 int& xCoord, int& yCoord, std::vector<Pokemon>& pokeTeam)
+{
+  out.open(fileName.c_str());
+  out << "This is the save file\n\n" << battlesWon << "\n" << xCoord;
+  out << "\n" << yCoord << "\n";
+
+  for(int i = 0; i < int(pokeTeam.size()); i++)
+  {
+    out << pokeTeam[i].getIndex() << " ";
+  }
+}

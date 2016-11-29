@@ -66,6 +66,10 @@ Player Start(SDL_Plotter& g, std::ifstream& in,
              int bodyNum, int armNum, int legNum, int typeNum);
 */
  
+//save function
+std::string Save(std::string fileName, std::ofstream&, int& battlesWon,
+                 int& xCoord, int& yCoord, std::vector<Pokemon>& pokeTeam);
+
 void Load(std::ifstream& in, std::string fileName, SDL_Plotter& g,
           int victories, std::vector<Pokemon>& pokeTeam, int& x, int& y,
           std::string heads[], std::string bodies[], std::string arms[],

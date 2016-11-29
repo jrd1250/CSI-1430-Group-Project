@@ -35,3 +35,4 @@ void modDraw(int x, int y, SDL_Plotter& g, std::ifstream& in,
              std::string toDraw, std::string modColor, bool flip);
 
 #endif // DRAW_H
+

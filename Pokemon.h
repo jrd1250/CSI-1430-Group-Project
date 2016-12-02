@@ -78,9 +78,10 @@ public:
   void attack3(Pokemon& target);
 
   // DATA MANAGEMENT
-  void CreateIndex(int, int, int, int, int);
-  void writeData(std::ofstream& out);
-  void readData(std::ifstream& in);
+  void CreateIndex(int, int, int, int, int, const int, const int, const int,
+                   const int);
+  void HPDraw(int x, int y, SDL_Plotter& g, std::ifstream& in,
+              bool flip);
 };
 
 #endif // POKEMON_H

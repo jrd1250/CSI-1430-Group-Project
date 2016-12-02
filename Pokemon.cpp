@@ -244,11 +244,46 @@ void Pokemon::attack3(Pokemon& target)
   Pokemon::buffDefense(3);
 }
 
-void Pokemon::CreateIndex(int typeI, int headI, int bodyI, int armI, int legI)
+void Pokemon::CreateIndex(int typeI, int headI, int bodyI, int armI, int legI,
+                          const int MAXHEAD,
+                          const int MAXBODY, const int MAXARM,
+                          const int MAXLEG)
 {
-  index = 1 + (typeI * 81) + (headI * 27) + (bodyI * 9) + (armI * 3) + legI;
+  int idMod = MAXHEAD * MAXBODY * MAXARM * MAXLEG;
+  int index = 1;
+
+  index += typeI * (idMod);
+  idMod /= MAXHEAD;
+
+  index += headI * (idMod);
+  idMod /= MAXBODY;
+
+  index += bodyI * (idMod);
+  idMod /= MAXARM;
+
+  index += armI * (idMod);
+  index += legI;
 }
 
-void writeData(std::ofstream& out);
-void readData(std::ifstream& in);
+void Pokemon::HPDraw(int x, int y, SDL_Plotter& g, std::ifstream& in,
+                     bool flip)
+{
+  int hpBlocks = int(ceil(hp / 5.0));
+
+  if(hpBlocks < 0)
+    hpBlocks = 0;
+  else if(hpBlocks > 5)
+    hpBlocks = 5;
+
+  for(int i = 0; i < hpBlocks; i++)
+  {
+    Draw(x, y, g, in, "greenHP.dat", flip);
+    x += 12;
+  }
+  for(int n = hpBlocks; n < 5; n++)
+  {
+    Draw(x, y, g, in, "redHP.dat", flip);
+    x += 12;
+  }
+}
 

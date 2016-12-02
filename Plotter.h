@@ -22,7 +22,7 @@ NOTE: Modified by J.R. Diehl on 11/28/2016 to add font functionality
 //#include "SDL2\SDL_mixer.h"
 #include <SDL2/SDL.h>
 //#include <SDL_mixer.h>
-//#include <SDL_ttf.h>
+#include <SDL_ttf.h>
 
 
 #include <string.h>
@@ -36,6 +36,7 @@ const char UP_ARROW    = 1;
 const char DOWN_ARROW  = 2;
 const char LEFT_ARROW  = 3;
 const char RIGHT_ARROW = 4;
+const char ESCAPE_KEY = 5;        //Added by J.R. Diehl
 const int RED_SHIFT   = 65536;
 const int GREEN_SHIFT = 256;
 const int BLUE_SHIFT  = 1;
@@ -74,20 +75,14 @@ private:
 
   int row, col;
   bool quit;
+  bool menu;                      //added by J.R. Diehl
   SDL_Event event;
 
   //Sound Stuff
   bool SOUND;
   int soundCount;
   map<string, param> soundMap;
-/*
-  // Text stuff
-  TTF_Font *font;
-  SDL_Surface *message;
-  SDL_Texture *text;
-  SDL_Rect textRect;
-  SDL_Color textColor;
-*/
+
 public:
 
 
@@ -97,6 +92,7 @@ public:
     	col = c;
     	leftMouseButtonDown = false;
     	quit = false;
+    	menu = false;               //added by J.R. Diehl
     	SOUND = WITH_SOUND;
 
     	SDL_Init(SDL_INIT_AUDIO);
@@ -114,16 +110,7 @@ public:
         pixels   = new Uint32[col * row];
 
         memset(pixels, WHITE, col * row * sizeof(Uint32));
-/*
-        // Text stuff initialized to defaults
 
-        message = NULL;
-        font = NULL;
-        text = NULL;
-        textColor.r = 255;
-        textColor.g = 255;
-        textColor.b = 255;
-*/
         //SOUND Thread Pool
         soundCount = 0;
 
@@ -147,10 +134,23 @@ public:
     }
 
     // Added by J.R. Diehl
+
     void setQuit(bool q)
     {
       quit = q;
     }
+
+    void setMenu(bool m)
+    {
+      menu = m;
+    }
+
+    bool getMenu()
+    {
+      return menu;
+    }
+
+    // END added by J.R. Diehl
 
     bool getQuit(){
     	return quit;
@@ -207,7 +207,9 @@ public:
 		if(currentKeyStates[SDL_SCANCODE_UP])    key = UP_ARROW;
 		if(currentKeyStates[SDL_SCANCODE_LEFT])  key = LEFT_ARROW;
 		if(currentKeyStates[SDL_SCANCODE_RIGHT]) key = RIGHT_ARROW;
-		if(currentKeyStates[SDL_SCANCODE_ESCAPE]) quit = true;
+
+		// Edited by J.R. Diehl
+		if(currentKeyStates[SDL_SCANCODE_ESCAPE]) key = ESCAPE_KEY;
 
     	return key;
     }

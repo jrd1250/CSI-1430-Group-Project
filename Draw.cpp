@@ -5,7 +5,6 @@ Title: Draw Library Implementation File
 
 #include "Draw.h"
 #include <stdlib.h>
-#include <time.h>
 
 void Draw(int x, int y, SDL_Plotter& g, std::ifstream& in,
           std::string toDraw, bool flip)
